@@ -1,0 +1,107 @@
+/*
+|---------------------------------------------|
+| 📱 DEFAULT MOBILE VIEW (Dưới 772px) |
+|---------------------------------------------|
+*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 10px;
+    background-color: #f4f4f4;
+}
+
+.container {
+    /* Đảm bảo các khối xếp chồng theo cột (Mobile/Mặc định) */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-block {
+    width: 90%; /* Chiếm phần lớn chiều rộng trên mobile */
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-sizing: border-box; /* Quan trọng để padding không làm tăng tổng kích thước */
+}
+
+.content-block img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px 0;
+}
+
+
+/*
+|-----------------------------------------------------------|
+| 1. QUERY #1: TABLET VIEW (>= 772px) - Hai Div Nằm Ngang |
+|-----------------------------------------------------------|
+*/
+/* Kích hoạt ở 772px: "Tablet View" */
+@media screen and (min-width: 772px) {
+
+    /* Thay đổi container sang bố cục hàng (row) */
+    .container {
+        flex-direction: row;
+        flex-wrap: wrap; /* Cho phép các khối gói xuống dòng */
+        justify-content: space-around;
+    }
+
+    /* Yêu cầu 1a: Đặt các div là 45% của viewport width (45vw) */
+    .content-block {
+        /*
+          Sử dụng flex-basis: 45vw và margin-right/left nhỏ.
+          Vì 45vw + 45vw = 90vw. Điều này cho phép 2 khối vừa vặn
+          và khối thứ 3 tự động bị đẩy xuống hàng dưới.
+        */
+        flex: 0 0 45vw; /* flex-grow: 0, flex-shrink: 0, flex-basis: 45vw */
+        max-width: 45vw;
+        margin: 10px 1.5%; /* Điều chỉnh margin để tạo khoảng cách giữa các khối */
+    }
+    
+    /* Yêu cầu 1b: Ảnh không quá 30% viewport height (30vh) */
+    .content-block img {
+        max-height: 30vh;
+        width: auto; /* Chiều rộng tự động điều chỉnh theo chiều cao */
+        object-fit: contain;
+    }
+
+    /* Tùy chọn: Đảm bảo khối thứ 3 (trên hàng mới) nằm giữa trên màn hình tablet */
+    .content-block:nth-child(3) {
+        /* Khi khối thứ 3 xuống dòng, đặt nó chiếm 100% để căn giữa dễ dàng hơn */
+        flex: 0 0 90vw;
+        max-width: 90vw;
+    }
+}
+
+
+/*
+|-----------------------------------------------------------|
+| 2. QUERY #2: LARGE SCREEN VIEW (>= 998px) - Ba Div Nằm Ngang |
+|-----------------------------------------------------------|
+*/
+/* Kích hoạt ở 998px: "Large Screen View" */
+@media screen and (min-width: 998px) {
+
+    /* Yêu cầu 2a: Đặt các div là 30% của viewport width (30vw) */
+    .content-block {
+        /*
+          Vì 30vw * 3 = 90vw. Ba khối sẽ vừa vặn trong một hàng.
+          Khối thứ 3 tự động chuyển lên hàng đầu tiên.
+        */
+        flex: 0 0 30vw;
+        max-width: 30vw;
+        margin: 10px 1%; /* Điều chỉnh margin nhỏ hơn */
+    }
+    
+    /* Khối thứ 3 quay lại kích thước 30vw */
+    .content-block:nth-child(3) {
+        flex: 0 0 30vw;
+        max-width: 30vw;
+    }
+
+    /* Yêu cầu 2b: Không cần thay đổi nào khác */
+    /* Quy tắc ảnh (max-height: 30vh) vẫn được áp dụng từ media query 772px */
+}
